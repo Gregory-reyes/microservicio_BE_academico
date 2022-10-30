@@ -22,22 +22,35 @@ def test():#función
     json = {}
     json["message"]="Server running..." #mensaje de impresión conexión servidor
     return jsonify(json)
+#######################################################
+#endpoints para el modelo estudiante
 
 @app.route("/estudiante",methods=['GET'])
 def index():
-    pass
+    json = controladorEstudiante.index()
+    return jsonify(json)
+
 @app.route("/estudiante<string:id>",methods=['GET'])
-def retrieve():
-    pass
+def retrieve(id):
+    json = controladorEstudiante.retrieve(id)
+    return jsonify(json)
+
 @app.route("/estudiante",methods=['POST'])
 def create():
-    pass
+    data = request.get_json()
+    json = controladorEstudiante.create(data)
+    return jsonify(json)
+
 @app.route("/estudiante<string:id>",methods=['PUT'])
-def update():
-    pass
+def update(id):
+    data = request.get_json()
+    json = controladorEstudiante.update(id,data)
+    return jsonify(json)
+
 @app.route("/estudiante<string:id>",methods=['DELETE'])
-def delete():
-    pass
+def delete(id):
+    json = controladorEstudiante.delete(id)
+    return jsonify(json)
 
 if __name__=='__main__': #if que aparece en todos los archivos python
     dataConfig = __loadFileConfig() #carga el archivo de configuarción 
@@ -49,5 +62,5 @@ if __name__=='__main__': #if que aparece en todos los archivos python
         from repositorios.InterfaceRepo import InterfaceRepo
         repo = InterfaceRepo()
     else:
-        controladorEstudiante = ControladorEstudiante()
+        #controladorEstudiante = ControladorEstudiante()
         serve(app,host=dataConfig["url-backend"],port=dataConfig["port"])
